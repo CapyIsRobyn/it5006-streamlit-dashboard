@@ -1,6 +1,8 @@
 from pydeck.bindings import view_state
 import streamlit as st
 import pandas as pd
+#from pathlib import Path
+#import gdown
 
 #import plotly.graph_objects as go # type: ignore
 #import pydeck as pdk
@@ -19,7 +21,12 @@ def load_crime() -> pd.DataFrame:
     # ---------------------------
     # 1. Define local data path
     # ---------------------------
+    #DATA_URL = "https://drive.google.com/uc?id=16kLimG75XypaiFZCbPBRdZ6l2IjjxVDe"
     DATA_PATH = "processed/chicago_crimes_2015_2024_cleaned.csv"
+    # ---------------------------
+    # 2. Load CSV file
+    # ---------------------------
+    #df = pd.read_csv(DATA_URL)
 
     # ---------------------------
     # 2. Load CSV file
