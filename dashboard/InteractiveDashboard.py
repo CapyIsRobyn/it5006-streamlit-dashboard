@@ -19,7 +19,11 @@ def load_crime() -> pd.DataFrame:
     # ---------------------------
     # 1. Define local data path
     # ---------------------------
-    DATA_PATH = "processed/chicago_crimes_2015_2024_cleaned.csv"
+    #DATA_PATH = "processed/chicago_crimes_2015_2024_cleaned.csv"
+    from pathlib import Path
+    BASE_DIR = Path(__file__).resolve().parent
+    DATA_PATH = BASE_DIR / "chicago_crimes_2022_2024_cleaned.csv"
+    df = pd.read_csv(DATA_PATH, low_memory=False)
 
     # ---------------------------
     # 2. Load CSV file
