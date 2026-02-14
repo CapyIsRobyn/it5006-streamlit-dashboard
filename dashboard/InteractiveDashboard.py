@@ -109,7 +109,7 @@ st.caption(f"Records in view: {len(df):,}")
 # ---------------------------
 # Tab Layout (Temporal / Spatial / Spatiotemporal)
 # ---------------------------
-tab0,tab1, tab2, tab3, tab4 = st.tabs(["Overview","👍Temporal Patterns", "Spatial Distribution", "Spatiotemporal Insights","More Infomation"])
+tab0,tab1, tab2, tab3, tab4 = st.tabs(["Overview","Temporal Patterns", "Spatial Distribution", "Spatiotemporal Insights","More Infomation"])
 
 # ===========================
 # TAB 0: Temporal Patterns
