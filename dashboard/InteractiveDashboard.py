@@ -6,7 +6,7 @@ import pandas as pd
 #import pydeck as pdk
 
 # Configure Streamlit page layout
-st.set_page_config(page_title="Chicago Crime (2015–2025)", layout="wide")
+st.set_page_config(page_title="Chicago Crime (2022–2024)", layout="wide")
 
 
 @st.cache_data(ttl=3600)
@@ -75,7 +75,7 @@ with st.sidebar:
     st.header("Filters")
 
     # Time range filter
-    y1, y2 = st.slider("Year range", 2015, 2025, (2015, 2024))
+    y1, y2 = st.slider("Year range", 2022, 2024, (2022, 2024))
 
     # Arrest filter
     arrest_filter = st.selectbox("Arrest", ["All", "True", "False"])
