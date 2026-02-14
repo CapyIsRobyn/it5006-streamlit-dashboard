@@ -19,13 +19,7 @@ def load_crime() -> pd.DataFrame:
     # ---------------------------
     # 1. Define local data path
     # ---------------------------
-    from pathlib import Path
-
-    BASE_DIR = Path(__file__).resolve().parent
-    DATA_PATH = BASE_DIR / "chicago_crimes_2022_2024_cleaned.csv"
-
-    df = pd.read_csv(DATA_PATH, low_memory=False)
-    #DATA_PATH = "chicago_crimes_2022_2024_cleaned.csv"
+    DATA_PATH = "processed/chicago_crimes_2015_2024_cleaned.csv"
 
     # ---------------------------
     # 2. Load CSV file
@@ -70,14 +64,14 @@ import plotly.express as px # type: ignore
 import plotly.graph_objects as go # type: ignore
 import pydeck as pdk
 
-st.title("Chicago Crimes Dashboard (2022–2024)")
+st.title("Chicago Crimes Dashboard (2015–2025)")
 
 # --- Sidebar filters (interactive controls) ---
 with st.sidebar:
     st.header("Filters")
 
     # Time range filter
-    y1, y2 = st.slider("Year range", 2022, 2025, (2022, 2024))
+    y1, y2 = st.slider("Year range", 2015, 2025, (2015, 2024))
 
     # Arrest filter
     arrest_filter = st.selectbox("Arrest", ["All", "True", "False"])
