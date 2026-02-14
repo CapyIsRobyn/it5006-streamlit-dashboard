@@ -68,7 +68,7 @@ import plotly.express as px # type: ignore
 import plotly.graph_objects as go # type: ignore
 import pydeck as pdk
 
-st.title("Chicago Crimes Dashboard (2015–2025)")
+st.title("Chicago Crimes Dashboard (2022–2024)")
 
 # --- Sidebar filters (interactive controls) ---
 with st.sidebar:
