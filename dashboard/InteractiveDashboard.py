@@ -1,8 +1,6 @@
 from pydeck.bindings import view_state
 import streamlit as st
 import pandas as pd
-#from pathlib import Path
-#import gdown
 
 #import plotly.graph_objects as go # type: ignore
 #import pydeck as pdk
@@ -21,12 +19,7 @@ def load_crime() -> pd.DataFrame:
     # ---------------------------
     # 1. Define local data path
     # ---------------------------
-    #DATA_URL = "https://drive.google.com/uc?id=16kLimG75XypaiFZCbPBRdZ6l2IjjxVDe"
     DATA_PATH = "processed/chicago_crimes_2015_2024_cleaned.csv"
-    # ---------------------------
-    # 2. Load CSV file
-    # ---------------------------
-    #df = pd.read_csv(DATA_URL)
 
     # ---------------------------
     # 2. Load CSV file
@@ -116,7 +109,90 @@ st.caption(f"Records in view: {len(df):,}")
 # ---------------------------
 # Tab Layout (Temporal / Spatial / Spatiotemporal)
 # ---------------------------
-tab1, tab2, tab3, tab4 = st.tabs(["Temporal Patterns", "Spatial Distribution", "Spatiotemporal Insights","More Infomation"])
+tab0,tab1, tab2, tab3, tab4 = st.tabs(["Overview","👍Temporal Patterns", "Spatial Distribution", "Spatiotemporal Insights","More Infomation"])
+
+# ===========================
+# TAB 0: Temporal Patterns
+# ===========================
+
+with tab0:
+    st.subheader("Dataset Overview")
+
+    # --- 1. KPI Metrics ---
+    # Total number of crime records (based on current filtered view)
+    total_records = len(df)
+
+    # Count occurrences of each primary crime type
+    vc = df["primary_type"].value_counts(dropna=True)
+
+    # Identify most common crime type
+    top_type = vc.index[0] if len(vc) > 0 else "N/A"
+    top_type_count = int(vc.iloc[0]) if len(vc) > 0 else 0
+
+    col1, col2 = st.columns(2)
+
+    col1.metric(
+        "Total Crime Records (Current View)",
+        f"{total_records:,}"
+    )
+
+    col2.metric(
+        "Most Common Crime Type",
+        f"{top_type}",
+        f"{top_type_count:,} records"
+    )
+
+    st.divider()
+
+    left_col, right_col = st.columns(2)
+
+    # --- 2. Crime Type Distribution (Pie Chart) ---
+    with left_col:
+        st.markdown("**Crime Type Composition**")
+
+        top_n = 8  # Limit categories for better readability
+        top_counts = vc.head(top_n)
+        others_count = vc.iloc[top_n:].sum()
+
+        if others_count > 0:
+            top_counts = pd.concat(
+                [top_counts, pd.Series({"Others": others_count})]
+            )
+
+        pie_df = top_counts.reset_index()
+        pie_df.columns = ["primary_type", "count"]
+
+        fig_pie = px.pie(
+            pie_df,
+            names="primary_type",
+            values="count",
+            title=f"Top {top_n} Crime Types + Others"
+        )
+
+        st.plotly_chart(fig_pie, use_container_width=True)
+
+    # --- 3. Crime Records by Year (Line Chart) ---
+    with right_col:
+        st.markdown("**Crime Records by Year**")
+
+        yearly_counts = (
+            df.groupby("year2")
+              .size()
+              .rename("num_crimes")
+              .reset_index()
+              .sort_values("year2")
+        )
+
+        fig_year = px.line(
+            yearly_counts,
+            x="year2",
+            y="num_crimes",
+            markers=True,
+            title="Yearly Crime Trend"
+        )
+
+        st.plotly_chart(fig_year, use_container_width=True)
+        
 
 # ===========================
 # TAB 1: Temporal Patterns
